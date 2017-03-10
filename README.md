@@ -17,12 +17,12 @@ Install [Cordova](https://cordova.apache.org), fetch this repository and navigat
 
 `cd scanbot-sdk-example-cordova`
 
-1. Install platforms and plugins (defined in the config.xml of this app)
+Install platforms and plugins (defined in the config.xml of this app):
 
 `cordova prepare`
 
 
-2. Check installed platforms and plugins:
+Check installed platforms and plugins:
 
 `cordova platform ls`
 
@@ -31,15 +31,13 @@ Install [Cordova](https://cordova.apache.org), fetch this repository and navigat
 You should see *android* and *ios* as installed platforms and *cordova-plugin-scanbot-sdk* as installed plugins. 
 
 
-3. Run the app
+Connect a device via USB and run the app.
 
-Connect a device via USB.
-
-Run on Android:
+Android:
 
 `cordova run android`
 
-Run on iOS:
+iOS:
 
 To run this example app on an iOS device you have to adjust some settings in Xcode: 
 - *Provisioning* and *Code Signing* settings - see [Cordova docs](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html) 
