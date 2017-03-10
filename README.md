@@ -1,13 +1,17 @@
 # Example App for Scanbot SDK Cordova Plugin
 
-This example app shows how to use the Scanbot SDK Cordova Plugin.
+This example app shows how to use the Scanbot SDK Cordova Plugin, which is available as [npm package](https://www.npmjs.com/package/cordova-plugin-scanbot-sdk).
 
-The Scanbot SDK plugin is available as [npm package](https://www.npmjs.com/package/cordova-plugin-scanbot-sdk).
-
-For more details see the [documentation](https://scanbotsdk.github.io/documentation/cordova/) of the plugin.
+For more details about the plugin see this [documentation](https://scanbotsdk.github.io/documentation/cordova/).
 
 
-## How to run
+## What is Scanbot SDK?
+The Scanbot SDK brings scanning and document creation capabilities to your mobile apps. 
+It contains modules which are individually licensable as license packages. 
+For more details visit our website [https://scanbot.io/sdk.html](https://scanbot.io/sdk.html)
+
+
+## How to run this app
 
 Install [Cordova](https://cordova.apache.org), fetch this repository and navigate to the project directory.
 
