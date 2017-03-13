@@ -29,4 +29,5 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value="This example app needs access to the Camera to demonstrate document scanning features of the Scanbot SDK." />
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="This example app needs access to the Photo Library to demonstrate image operation features of the Scanbot SDK." />
     </plugin>
+    <preference name="Orientation" value="portrait" />
 </widget>
