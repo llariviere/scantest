@@ -1,14 +1,9 @@
 
 var app = {
-  // Application Constructor
   initialize: function() {
     document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
   },
 
-  // deviceready Event Handler
-  //
-  // Bind any cordova events here. Common events are:
-  // 'pause', 'resume', etc.
   onDeviceReady: function() {
     this.receivedEvent('deviceready');
 
@@ -33,9 +28,18 @@ var app = {
 app.initialize();
 
 
+
+var currentDocumentImage = { imageFileUri: '', originalImageFileUri: '' };
+
 function initExampleUi() {
   document.getElementById('start-camera-ui-button').onclick = function(e) {
     startCameraUi();
+  };
+  document.getElementById('start-cropping-ui-button').onclick = function(e) {
+    startCroppingUi();
+  };
+  document.getElementById('apply-image-filter-button').onclick = function(e) {
+    applyImageFilter();
   };
 }
 
@@ -48,6 +52,7 @@ function initScanbotSdk() {
   ScanbotSdk.initializeSdk(
       function(result) {
         console.log(result);
+        document.getElementById('label-ready').innerHTML = '' + result;
       },
       sdkErrorCallback, options
   );
@@ -66,7 +71,66 @@ function startCameraUi() {
   ScanbotSdkUi.startCamera(
       function(result) {
         console.log('Camera result: ' + JSON.stringify(result));
+        //document.getElementById('image-result').setAttribute('src', result.imageFileUri);
+        setCurrentDocumentImage(result);
       },
       sdkErrorCallback, options
   );
+}
+
+function startCroppingUi() {
+  if (!currentDocumentImage.originalImageFileUri) {
+    alert('Please snap an image via Camera UI.');
+    return;
+  }
+
+  var options = {
+    imageFileUri: currentDocumentImage.originalImageFileUri,
+    edgeColor: '#0000ff'
+  };
+
+  ScanbotSdkUi.startCropping(
+      function(result) {
+        console.log('Cropping result: ' + JSON.stringify(result));
+        setCurrentDocumentImage(result);
+      },
+      sdkErrorCallback, options
+  );
+}
+
+function applyImageFilter() {
+  if (!currentDocumentImage.imageFileUri) {
+    alert('Please snap an image via Camera UI.');
+    return;
+  }
+
+  var options = {
+    imageFileUri: currentDocumentImage.imageFileUri,
+    imageFilter: ScanbotSdk.ImageFilter.BINARIZED
+  };
+
+  ScanbotSdk.applyImageFilter(
+      function(result) {
+        console.log('Image filter result: ' + JSON.stringify(result));
+        setCurrentDocumentImage(result);
+      },
+      sdkErrorCallback, options
+  );
+}
+
+
+function setCurrentDocumentImage(sdkResult) {
+  if (hasField(sdkResult, 'imageFileUri') && sdkResult.imageFileUri) {
+    currentDocumentImage.imageFileUri = sdkResult.imageFileUri;
+  }
+  if (hasField(sdkResult, 'originalImageFileUri') && sdkResult.originalImageFileUri) {
+    currentDocumentImage.originalImageFileUri = sdkResult.originalImageFileUri;
+  }
+  if (currentDocumentImage.imageFileUri !== '') {
+    document.getElementById('image-result').setAttribute('src', currentDocumentImage.imageFileUri);
+  }
+}
+
+function hasField(obj, fieldName) {
+  return Object.keys(obj).indexOf(fieldName) != -1;
 }
