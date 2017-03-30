@@ -65,13 +65,13 @@ function sdkErrorCallback(error) {
 
 function startCameraUi() {
   var options = {
-    edgeColor: '#0000ff'
+    edgeColor: '#0000ff',
+    quality: 70
   };
 
   ScanbotSdkUi.startCamera(
       function(result) {
         console.log('Camera result: ' + JSON.stringify(result));
-        //document.getElementById('image-result').setAttribute('src', result.imageFileUri);
         setCurrentDocumentImage(result);
       },
       sdkErrorCallback, options
@@ -86,7 +86,8 @@ function startCroppingUi() {
 
   var options = {
     imageFileUri: currentDocumentImage.originalImageFileUri,
-    edgeColor: '#0000ff'
+    edgeColor: '#0000ff',
+    quality: 70
   };
 
   ScanbotSdkUi.startCropping(
@@ -106,7 +107,8 @@ function applyImageFilter() {
 
   var options = {
     imageFileUri: currentDocumentImage.imageFileUri,
-    imageFilter: ScanbotSdk.ImageFilter.BINARIZED
+    imageFilter: ScanbotSdk.ImageFilter.BINARIZED,
+    quality: 70
   };
 
   ScanbotSdk.applyImageFilter(
