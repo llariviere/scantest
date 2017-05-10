@@ -66,7 +66,8 @@ function sdkErrorCallback(error) {
 function startCameraUi() {
   var options = {
     edgeColor: '#0000ff',
-    quality: 70
+    quality: 70,
+    sampleSize: 2 // change to 1 for full resolution images
   };
 
   ScanbotSdkUi.startCamera(
