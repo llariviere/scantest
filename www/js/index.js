@@ -31,6 +31,22 @@ app.initialize();
 
 var currentDocumentImage = { imageFileUri: '', originalImageFileUri: '' };
 
+var demoLicenseKey = "TPSiQ+xEtoOSBoBMrXe/hcLDSnxRn4" +
+    "mSDTBj9pLXjvkPrTEPQg1F9uSgINSb" +
+    "P4FieC6SqCVtgA8Z4OaOawowJlHQCg" +
+    "BFTEQvSPBc5anNX6SeyLagoXXDQTo8" +
+    "i5Dnb+qcVvzxYnryklt0w9SStzxnPG" +
+    "nUuxJLDcKfF4nBEtC6ZLByjjPg5rFo" +
+    "wGZ8PQ4We5AUKtlP0F0i0llsgQ3tzD" +
+    "WtHc2iavKBsZ5RxSgLET18KTwKQECN" +
+    "7njJsgQ/qrORcfZX49r9Cb7R2JX34b" +
+    "GzM8sRYx7LMIThkqt75PTbV6CkHqhN" +
+    "TIv3+VHeaQ2CXz7+j6Fl71LG+a3pdJ" +
+    "UCG5UL7qbbbA==\nU2NhbmJvdFNESw" +
+    "ppby5zY2FuYm90LmV4YW1wbGUuc2Rr" +
+    "LmNvcmRvdmEKMTQ5ODM0ODc5OQo5NA" +
+    "oz\n";
+
 function initExampleUi() {
   document.getElementById('start-camera-ui-button').onclick = function(e) {
     startCameraUi();
@@ -46,7 +62,7 @@ function initExampleUi() {
 function initScanbotSdk() {
   var options = {
     loggingEnabled: true,
-    licenseKey: ''
+    licenseKey: demoLicenseKey
   };
 
   ScanbotSdk.initializeSdk(
