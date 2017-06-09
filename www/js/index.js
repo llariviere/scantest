@@ -28,8 +28,10 @@ var app = {
 app.initialize();
 
 
-
 var currentDocumentImage = { imageFileUri: '', originalImageFileUri: '' };
+var ocrLanguages = ["en", "de"];
+var jpgQuality = 70;
+
 
 function initExampleUi() {
   document.getElementById('start-camera-ui-button').onclick = function(e) {
@@ -40,6 +42,9 @@ function initExampleUi() {
   };
   document.getElementById('apply-image-filter-button').onclick = function(e) {
     applyImageFilter();
+  };
+  document.getElementById('perform-ocr-button').onclick = function(e) {
+    performOcr();
   };
 }
 
@@ -53,6 +58,7 @@ function initScanbotSdk() {
       function(result) {
         console.log(result);
         document.getElementById('label-ready').innerHTML = '' + result;
+        checkPrepareOcrFiles();
       },
       sdkErrorCallback, options
   );
@@ -66,7 +72,7 @@ function sdkErrorCallback(error) {
 function startCameraUi() {
   var options = {
     edgeColor: '#0000ff',
-    quality: 70,
+    quality: jpgQuality,
     sampleSize: 2 // change to 1 for full resolution images
   };
 
@@ -80,15 +86,12 @@ function startCameraUi() {
 }
 
 function startCroppingUi() {
-  if (!currentDocumentImage.originalImageFileUri) {
-    alert('Please snap an image via Camera UI.');
-    return;
-  }
+  if (!hasDocumentImage()) { return; }
 
   var options = {
     imageFileUri: currentDocumentImage.originalImageFileUri,
     edgeColor: '#0000ff',
-    quality: 70
+    quality: jpgQuality
   };
 
   ScanbotSdkUi.startCropping(
@@ -101,15 +104,12 @@ function startCroppingUi() {
 }
 
 function applyImageFilter() {
-  if (!currentDocumentImage.imageFileUri) {
-    alert('Please snap an image via Camera UI.');
-    return;
-  }
+  if (!hasDocumentImage()) { return; }
 
   var options = {
     imageFileUri: currentDocumentImage.imageFileUri,
     imageFilter: ScanbotSdk.ImageFilter.BINARIZED,
-    quality: 70
+    quality: jpgQuality
   };
 
   ScanbotSdk.applyImageFilter(
@@ -119,6 +119,74 @@ function applyImageFilter() {
       },
       sdkErrorCallback, options
   );
+}
+
+function checkPrepareOcrFiles() {
+  ScanbotSdk.getOcrConfigs(
+      function(result) {
+        console.log('OCR configs: ' + JSON.stringify(result));
+        if (result.installedLanguages.length < ocrLanguages.length) {
+          copyOcrFiles(result.languageDataPath);
+        } else {
+          console.log('Installed OCR languages: ' + result.installedLanguages);
+        }
+      }, sdkErrorCallback, {}
+  );
+}
+
+function copyOcrFiles(languageDataPath) {
+  window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + '/www/my-tessdata', function(sourceDir) {
+    window.resolveLocalFileSystemURL(languageDataPath, function(targetDir) {
+      sourceDir.createReader().readEntries(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isFile) {
+              console.log("Copying file " + entry.fullPath);
+              entry.copyTo(targetDir);
+            }
+          });
+      }, fileSysErrorCallback);
+    },fileSysErrorCallback);
+  }, fileSysErrorCallback);
+}
+
+function fileSysErrorCallback(error) {
+  console.log('File system error: ' + JSON.stringify(error));
+  alert('File system error: ' + JSON.stringify(error));
+}
+
+function performOcr() {
+  if (!hasDocumentImage()) { return; }
+
+  var ocrButton = document.getElementById('perform-ocr-button');
+  ocrButton.innerHTML = 'Performing OCR ...';
+  ocrButton.setAttribute('disabled', 'disabled');
+
+  var options = {
+    images: [currentDocumentImage.imageFileUri],
+    languages: ocrLanguages,
+    outputFormat: ScanbotSdk.OcrOutputFormat.FULL_OCR_RESULT
+  };
+  ScanbotSdk.performOcr(
+      function(result) {
+        console.log('OCR result: ' + JSON.stringify(result));
+
+        alert('Please see the OCR results in the console logs. ' +
+          (result.pdfFileUri ? '\n\nThe OCR result PDF file can be found here: ' + result.pdfFileUri : ''));
+
+        ocrButton.innerHTML = 'Perform OCR';
+        ocrButton.removeAttribute('disabled');
+      },
+      sdkErrorCallback, options
+  );
+
+}
+
+function hasDocumentImage() {
+  if (!currentDocumentImage.imageFileUri) {
+    alert('Please snap an image via Camera UI.');
+    return false;
+  }
+  return true;
 }
 
 
