@@ -23,7 +23,7 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <preference name="Orientation" value="portrait" />
-    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-minSdkVersion" value="15" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <engine name="android" spec="~6.2.1" />
     <engine name="ios" spec="~4.3.1" />
