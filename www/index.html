@@ -1,44 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <title>Scanbot SDK Cordova Plugin Example</title>
+
+    <!-- Your app title -->
+    <title>Scanner Test App</title>
+
+    <!-- This template defaults to the iOS CSS theme. To support both iOS and material design themes, see the Framework7 Tutorial at the link below:
+        http://www.idangero.us/framework7/tutorials/maintain-both-ios-and-material-themes-in-single-app.html
+     -->
+
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
+    <div class="statusbar-overlay"></div>
 
-    <div class="app">
-
-        <div class="demo-header">
-            <img src="img/scanbot-logo.png">
-            <img src="img/cordova-logo.png">
-        </div>
-
-        <h1>Scanbot SDK Cordova Plugin Example</h1>
-
-        <div id="deviceready">
-
-            <p class="event listening">Connecting to Device</p>
-            <p id="label-ready" class="event received blink">Device is Ready</p>
-
-            <div class="buttons-panel">
-                <button id="start-camera-ui-button">Scanbot Camera UI</button>
-                <button id="start-cropping-ui-button">Scanbot Cropping UI</button>
-                <button id="apply-image-filter-button">Apply Image Filter</button>
-                <button id="perform-ocr-button">Perform OCR</button>
-            </div>
-
-            <img id="image-result" src="img/cordova-logo.png">
-
+    <!-- Panels overlay-->
+    <div class="panel-overlay"></div>
+    <!-- Left panel with reveal effect-->
+    <div class="panel panel-left panel-reveal">
+        <div class="content-block">
+            <p>Nothing here</p>
         </div>
     </div>
 
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+    <!-- Views -->
+    <div class="views">
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+                    <div class="center sliding">Scanner Test App</div>
+                    <div class="right">
+                        <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pages navbar-through toolbar-through">
+                <!-- Page, "data-page" contains page name -->
+                <div data-page="index" class="page">
+                    <!-- Scrollable page content -->
+                    <div class="page-content">
+                        <div class="content-block" style="text-align:center;font-size:1.4em;">
+                        	<p><button class="col button button-big button-fill color-gray" id="start-camera-ui-button">Scanning</button></p>
+                        	<p><button class="col button button-big button-fill color-gray" id="start-cropping-ui-button">Cropping</button></p>
+                        	<p><button class="col button button-big button-fill color-gray" id="apply-image-filter-button">Filtering</button></p>
+                        	<p><button class="col button button-big button-fill color-gray" id="perform-ocr-button">OCR</button></p>
+                        </div>
+                        <div class="content-block" style="text-align:center;">
+                            <img id="image-result" src="img/cordova-logo.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
 
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
 </body>
+
 </html>
